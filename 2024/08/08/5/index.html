@@ -223,7 +223,7 @@ mjx-container[display="true"] + br {
           
             <h2 class="last-time">
               <span>最后更新于</span>
-              <time  class="article-updated" datetime="2024-08-10T08:21:12.497Z" itemprop="dateUpdated">2024-08-10</time>
+              <time  class="article-updated" datetime="2024-08-12T06:15:02.828Z" itemprop="dateUpdated">2024-08-12</time>
             </h2>
           
           
@@ -259,6 +259,7 @@ mjx-container[display="true"] + br {
 <h3 id="文件结构"><a href="#文件结构" class="headerlink" title="文件结构"></a>文件结构</h3><p>模板下载下来后只有两个tex文件和两个pdf文件，tex文件为bare_jrnl_new_sample4.tex和New_IEEEtran_how-to.tex，pdf文件由两个tex文件编译而成。<br>bare_jrnl_new_sample4.tex是期刊论文模板，New_IEEEtran_how-to.tex是使用说明。</p>
 <p>没有cls文件，因为IEEETran.cls是LaTeX的标准类文件，不需要额外下载。</p>
 <h3 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h3><p>目前使用latexmk编译。不过使用pdflatex和xelaTeX编译时也没有报错。</p>
+<p>更新：使用xelateX编译时，文章的字体包括参考文献字体格式等都会与模板不一致，使用latexmk编译时则不会出现这个问题。<br>但生成.bbl文件时仍需通过xelatex -&gt; bibtex -&gt; xelatex -&gt; xelatex编译，生成后再使用latexmk编译即可。</p>
 <h3 id="参考文献格式"><a href="#参考文献格式" class="headerlink" title="参考文献格式"></a>参考文献格式</h3><p>使用bibtex比较方便，注释掉模板中的bibliography部分，并在文末添加以下两行：</p>
 <figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\bibliographystyle</span>{IEEEtran}</span><br><span class="line"><span class="keyword">\bibliography</span>{IEEEabrv,reference}</span><br></pre></td></tr></table></figure>
 <p>其中IEEEabrv是IEEE提供的缩写文件，reference是参考文献的bib文件。</p>
