@@ -20,7 +20,7 @@
 
   
 
-  <title>bibtex编译失败：.bib文件中出现&amp;等特殊字符 | LEKOULEKOUHAO&#39;s Blog</title>
+  <title>pip安装 Python 包常用镜像源 | LEKOULEKOUHAO&#39;s Blog</title>
 
   
 
@@ -214,12 +214,17 @@ mjx-container[display="true"] + br {
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">bibtex编译失败：.bib文件中出现&amp;等特殊字符</h1>
+          <h1 class="title-wrap">pip安装 Python 包常用镜像源</h1>
           <h2 class="title-sub-wrap">
             <strong></strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2024-05-14T16:00:00.000Z" itemprop="datePublished">2024-05-15</time>
+            <time  class="article-date" datetime="2024-09-07T16:00:00.000Z" itemprop="datePublished">2024-09-08</time>
           </h2>
+          
+            <h2 class="last-time">
+              <span>最后更新于</span>
+              <time  class="article-updated" datetime="2024-09-08T18:32:15.209Z" itemprop="dateUpdated">2024-09-09</time>
+            </h2>
           
           
           <ul class="wrap-list dark">
@@ -249,18 +254,23 @@ mjx-container[display="true"] + br {
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h2 id="bibtex编译失败：-bib文件中出现特殊字符"><a href="#bibtex编译失败：-bib文件中出现特殊字符" class="headerlink" title="bibtex编译失败：.bib文件中出现特殊字符"></a>bibtex编译失败：.bib文件中出现特殊字符</h2><p>写毕业论文时采用了latex进行排版，参考文献使用bibtex管理。在编译时遇到了参考文献无法正常显示的问题，经检查发现是.bib文件中出现了&amp;等特殊字符，导致了编译失败。下面记录解决方法。</p>
-<h3 id="特殊字符的转义"><a href="#特殊字符的转义" class="headerlink" title="特殊字符的转义"></a>特殊字符的转义</h3><p>在latex中，&amp;是特殊字符，表示表格中的列分隔符。因此在.bib文件中出现&amp;时，需要进行转义。将&amp;替换为\&amp;即可解决问题。</p>
-<p>以下是一个.bib文件的例子：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@ARTICLE{7123563,</span><br><span class="line">  author={Al-Fuqaha, Ala and Guizani, Mohsen and Mohammadi, Mehdi and Aledhari, Mohammed and Ayyash, Moussa},</span><br><span class="line">  journal={IEEE Communications Surveys \&amp; Tutorials}, </span><br><span class="line">  title={Internet of Things: A Survey on Enabling Technologies, Protocols, and Applications}, </span><br><span class="line">  year={2015},</span><br><span class="line">  volume={17},</span><br><span class="line">  number={4},</span><br><span class="line">  pages={2347-2376},</span><br><span class="line">  keywords={Internet of things;Computer architecture;Radiofrequency identification;Intelligent sensors;Mobile communication;Internet of things;IoT;CoAP;MQTT;AMQP;XMPP;DDS;mDNS;IoT Gateway;Internet of Things (IoT);CoAP;MQTT;AMQP;XMPP;DDS;mDNS;IoT gateway},</span><br><span class="line">  doi={10.1109/COMST.2015.2444095},</span><br><span class="line">  url={https://ieeexplore.ieee.org/document/7123563}</span><br><span class="line">  }</span><br></pre></td></tr></table></figure>
-<p>在上面的例子中，journal字段中的&amp;转义为\&amp;。</p>
-<p>需要注意，修改.bib文件后需要重新编译.tex文件，同时删除之前编译出的.aux与.bbl文件，否则修改不会生效。<br>此外，每次修改.bib文件后，编译过程应为xelatex -&gt; bibtex -&gt; xelatex -&gt; xelatex。</p>
+        <h2 id="国内常用镜像源"><a href="#国内常用镜像源" class="headerlink" title="国内常用镜像源"></a>国内常用镜像源</h2><p>换新电脑后很多包都需要重新安装，但是pip安装的速度很慢，需要更换镜像源。以前每次换源都要上网查一下，趁这次机会在这里记录一下。</p>
+<p>清华大学：<a target="_blank" rel="noopener" href="https://pypi.tuna.tsinghua.edu.cn/simple/">https://pypi.tuna.tsinghua.edu.cn/simple/</a></p>
+<p>清华镜像源是最常用的，速度也很快。</p>
+<p>国内的还有以下几个镜像源：</p>
+<p>阿里云：<a target="_blank" rel="noopener" href="http://mirrors.aliyun.com/pypi/simple/">http://mirrors.aliyun.com/pypi/simple/</a><br>中国科学技术大学 ：<a target="_blank" rel="noopener" href="http://pypi.mirrors.ustc.edu.cn/simple/">http://pypi.mirrors.ustc.edu.cn/simple/</a><br>华中科技大学：<a target="_blank" rel="noopener" href="http://pypi.hustunique.com/">http://pypi.hustunique.com/</a><br>豆瓣源：<a target="_blank" rel="noopener" href="http://pypi.douban.com/simple/">http://pypi.douban.com/simple/</a><br>腾讯源：<a target="_blank" rel="noopener" href="http://mirrors.cloud.tencent.com/pypi/simple">http://mirrors.cloud.tencent.com/pypi/simple</a><br>华为镜像源：<a target="_blank" rel="noopener" href="https://repo.huaweicloud.com/repository/pypi/simple/">https://repo.huaweicloud.com/repository/pypi/simple/</a></p>
+<h2 id="更换镜像源"><a href="#更换镜像源" class="headerlink" title="更换镜像源"></a>更换镜像源</h2><p>一般是临时使用，只需在命令行中加上<code>-i</code>参数即可，如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -i https://pypi.tuna.tsinghua.edu.cn/simple [package_name]</span><br></pre></td></tr></table></figure>
+<p>package_name是要安装的包名。假如需要安装nonebot包，可以使用以下命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -i https://pypi.tuna.tsinghua.edu.cn/simple nonebot</span><br></pre></td></tr></table></figure>
+<p>以上内容参考自csdn博客，原文见：<a target="_blank" rel="noopener" href="https://blog.csdn.net/NANGE007/article/details/131702855">原文链接</a>。</p>
 
       </section>
 
       
       
         <nav class="article-nav">
+          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
@@ -269,21 +279,6 @@ mjx-container[display="true"] + br {
       
         <a href="/2024/08/08/5/" itemprop="url">
           <h2 class="card-text--title text-ellipsis">IEEETran LaTeX模板使用记录</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
-          
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-    <div class="card-text">
-      
-        <a href="/2024/05/15/3/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">max及min函数的线性化</h2>
         </a>
       
       <div class="card-text--row">Older</div>
