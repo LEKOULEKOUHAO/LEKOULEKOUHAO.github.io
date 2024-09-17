@@ -221,6 +221,11 @@ mjx-container[display="true"] + br {
             <time  class="article-date" datetime="2024-09-08T16:00:00.000Z" itemprop="datePublished">2024-09-09</time>
           </h2>
           
+            <h2 class="last-time">
+              <span>最后更新于</span>
+              <time  class="article-updated" datetime="2024-09-17T06:43:26.171Z" itemprop="dateUpdated">2024-09-17</time>
+            </h2>
+          
           
           <ul class="wrap-list dark">
   
@@ -254,7 +259,7 @@ mjx-container[display="true"] + br {
 <p>不清楚是什么原因导致的，换了一种设置方式，问题解决。假如设置求解时限为两分钟，代码示例如下：</p>
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">time_limit = <span class="number">120</span>;</span><br><span class="line">options = sdpsettings(<span class="string">'verbose'</span>, <span class="number">0</span>, <span class="string">'solver'</span>, <span class="string">'Cplex'</span>);</span><br><span class="line">options.cplex.timelimit = time_limit;</span><br></pre></td></tr></table></figure>
 <h3 id="问题2"><a href="#问题2" class="headerlink" title="问题2"></a>问题2</h3><p>求解时报错：<br>‘Unknown problem in solver (Turn on ‘debug’ in sdpsettings) (错误使用 cplexmilp<br>错误: 文件: Cplex.p 行: 942 列: 0<br>标识符 ‘changedParam’ 不是函数或共享变量。要与嵌套函数共享 ‘changedParam’，请在当前作用域内对其进行初始化。有关详细信息，请参阅 在父函数和嵌套函数之间共享变量。)’</p>
-<p>目前还未找到原因和解决方法，后续补充。</p>
+<p>原因可能是matlab版本过高，上述问题目前尚未解决。已重新安装matlabR2016a版本，yalmip+cplex可以在matlab中正常使用。<br>后续有机会再补充matlabR2024a版本下yalmip+cplex的安装问题解决方法。</p>
 
       </section>
 
