@@ -20,7 +20,7 @@
 
   
 
-  <title>matlabR2024a下安装yalmip+cplex问题记录 | LEKOULEKOUHAO&#39;s Blog</title>
+  <title>YALMIP约束条件代码优化：向量化与避免循环 | LEKOULEKOUHAO&#39;s Blog</title>
 
   
 
@@ -214,17 +214,12 @@ mjx-container[display="true"] + br {
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">matlabR2024a下安装yalmip+cplex问题记录</h1>
+          <h1 class="title-wrap">YALMIP约束条件代码优化：向量化与避免循环</h1>
           <h2 class="title-sub-wrap">
             <strong></strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2024-09-08T16:00:00.000Z" itemprop="datePublished">2024-09-09</time>
+            <time  class="article-date" datetime="2025-03-02T16:00:00.000Z" itemprop="datePublished">2025-03-03</time>
           </h2>
-          
-            <h2 class="last-time">
-              <span>最后更新于</span>
-              <time  class="article-updated" datetime="2024-09-17T06:43:26.171Z" itemprop="dateUpdated">2024-09-17</time>
-            </h2>
           
           
           <ul class="wrap-list dark">
@@ -254,12 +249,14 @@ mjx-container[display="true"] + br {
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h2 id="问题记录"><a href="#问题记录" class="headerlink" title="问题记录"></a>问题记录</h2><p>以前用的是matlabR2016a版本，现在更换为matlabR2024a版本，重新安装和以前一样版本的yalmip和cplex，但是出现了一些问题。记录如下:</p>
-<h3 id="问题1"><a href="#问题1" class="headerlink" title="问题1"></a>问题1</h3><p>设置求解时限时，用到’cplex.timelimit’，报错Unrecognized property name ‘cplex.timelimit’。</p>
-<p>不清楚是什么原因导致的，换了一种设置方式，问题解决。假如设置求解时限为两分钟，代码示例如下：</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">time_limit = <span class="number">120</span>;</span><br><span class="line">options = sdpsettings(<span class="string">'verbose'</span>, <span class="number">0</span>, <span class="string">'solver'</span>, <span class="string">'Cplex'</span>);</span><br><span class="line">options.cplex.timelimit = time_limit;</span><br></pre></td></tr></table></figure>
-<h3 id="问题2"><a href="#问题2" class="headerlink" title="问题2"></a>问题2</h3><p>求解时报错：<br>‘Unknown problem in solver (Turn on ‘debug’ in sdpsettings) (错误使用 cplexmilp<br>错误: 文件: Cplex.p 行: 942 列: 0<br>标识符 ‘changedParam’ 不是函数或共享变量。要与嵌套函数共享 ‘changedParam’，请在当前作用域内对其进行初始化。有关详细信息，请参阅 在父函数和嵌套函数之间共享变量。)’</p>
-<p>原因可能是matlab版本过高，上述问题目前尚未解决。已重新安装matlabR2016a版本，yalmip+cplex可以在matlab中正常使用。<br>后续有机会再补充matlabR2024a版本下yalmip+cplex的安装问题解决方法。</p>
+        <h2 id="问题记录"><a href="#问题记录" class="headerlink" title="问题记录"></a>问题记录</h2><p>使用matlab+yalmip+cplex求解一个线性的整数规划问题时，遇到了程序运行时间特别长，但从求解器输出的信息看，求解时间并不长，这意味着可能经过了很长时间的问题建模与求解预处理。<br>反复调试后发现问题可能是出在添加约束部分的代码上。</p>
+<h2 id="问题案例"><a href="#问题案例" class="headerlink" title="问题案例"></a>问题案例</h2><p>以下是一个简化的问题案例：</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="number">100</span>;</span><br><span class="line">m = <span class="number">50</span>;</span><br><span class="line">A = <span class="built_in">randn</span>(m, n);</span><br><span class="line">b = <span class="built_in">randn</span>(m, <span class="number">1</span>);</span><br><span class="line">x = sdpvar(n, <span class="number">1</span>);</span><br><span class="line">constraints = [];</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">1</span>:m</span><br><span class="line">    constraints = [constraints, A(<span class="built_in">i</span>, :)*x &lt;= b(<span class="built_in">i</span>)];</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">optimize(constraints, sum(x));</span><br></pre></td></tr></table></figure>
+<p>在添加约束时，这里使用了循环的方式，将每个约束逐个添加到约束集合中。这种方式在约束数量较少时不会有太大问题，但当约束数量较多时，会导致程序运行时间过长。此外约束会随迭代次数改变，在没有预分配内存的情况下，会导致内存频繁分配与释放，降低程序运行效率。</p>
+<p>因此，在添加约束的代码中应当尽量避免循环，而是使用向量化的方式。</p>
+<h2 id="优化方案"><a href="#优化方案" class="headerlink" title="优化方案"></a>优化方案</h2><p>以下是优化后的代码：</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="number">100</span>;</span><br><span class="line">m = <span class="number">50</span>;</span><br><span class="line">A = <span class="built_in">randn</span>(m, n);</span><br><span class="line">b = <span class="built_in">randn</span>(m, <span class="number">1</span>);</span><br><span class="line">x = sdpvar(n, <span class="number">1</span>);</span><br><span class="line">constraints = A*x &lt;= b; <span class="comment">% 向量化</span></span><br><span class="line">optimize(constraints, sum(x));</span><br></pre></td></tr></table></figure>
+<p>在这里，将约束向量化，直接将矩阵A与向量x相乘，得到一个m维的列向量，然后与向量b进行比较，得到一个m维的列向量，这个列向量即为约束条件。采用这种方式不仅能让代码更加简洁，程序的运行效率也会大大提高。</p>
 
       </section>
 
@@ -267,28 +264,14 @@ mjx-container[display="true"] + br {
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-    <div class="card-text">
-      
-        <a href="/2025/03/03/8/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">YALMIP约束条件代码优化：向量化与避免循环</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
     <div class="card-text">
       
-        <a href="/2024/09/08/6/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">pip安装 Python 包常用镜像源</h2>
+        <a href="/2024/09/09/7/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">matlabR2024a下安装yalmip+cplex问题记录</h2>
         </a>
       
       <div class="card-text--row">Older</div>
