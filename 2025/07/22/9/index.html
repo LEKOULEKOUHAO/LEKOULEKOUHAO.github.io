@@ -20,7 +20,7 @@
 
   
 
-  <title>pip安装 Python 包常用镜像源 | LEKOULEKOUHAO&#39;s Blog</title>
+  <title>Bibtex参考文献管理:作者姓名存在特殊字符（西班牙语重音字符）导致编码报错 | LEKOULEKOUHAO&#39;s Blog</title>
 
   
 
@@ -214,17 +214,12 @@ mjx-container[display="true"] + br {
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">pip安装 Python 包常用镜像源</h1>
+          <h1 class="title-wrap">Bibtex参考文献管理:作者姓名存在特殊字符（西班牙语重音字符）导致编码报错</h1>
           <h2 class="title-sub-wrap">
             <strong></strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2024-09-07T16:00:00.000Z" itemprop="datePublished">2024-09-08</time>
+            <time  class="article-date" datetime="2025-07-21T16:00:00.000Z" itemprop="datePublished">2025-07-22</time>
           </h2>
-          
-            <h2 class="last-time">
-              <span>最后更新于</span>
-              <time  class="article-updated" datetime="2024-09-08T18:32:15.209Z" itemprop="dateUpdated">2024-09-09</time>
-            </h2>
           
           
           <ul class="wrap-list dark">
@@ -254,16 +249,22 @@ mjx-container[display="true"] + br {
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h2 id="国内常用镜像源"><a href="#国内常用镜像源" class="headerlink" title="国内常用镜像源"></a>国内常用镜像源</h2><p>换新电脑后很多包都需要重新安装，但是pip安装的速度很慢，需要更换镜像源。以前每次换源都要上网查一下，趁这次机会在这里记录一下。</p>
-<p>清华大学：<a target="_blank" rel="noopener" href="https://pypi.tuna.tsinghua.edu.cn/simple/">https://pypi.tuna.tsinghua.edu.cn/simple/</a></p>
-<p>清华镜像源是最常用的，速度也很快。</p>
-<p>国内的还有以下几个镜像源：</p>
-<p>阿里云：<a target="_blank" rel="noopener" href="http://mirrors.aliyun.com/pypi/simple/">http://mirrors.aliyun.com/pypi/simple/</a><br>中国科学技术大学 ：<a target="_blank" rel="noopener" href="http://pypi.mirrors.ustc.edu.cn/simple/">http://pypi.mirrors.ustc.edu.cn/simple/</a><br>华中科技大学：<a target="_blank" rel="noopener" href="http://pypi.hustunique.com/">http://pypi.hustunique.com/</a><br>豆瓣源：<a target="_blank" rel="noopener" href="http://pypi.douban.com/simple/">http://pypi.douban.com/simple/</a><br>腾讯源：<a target="_blank" rel="noopener" href="http://mirrors.cloud.tencent.com/pypi/simple">http://mirrors.cloud.tencent.com/pypi/simple</a><br>华为镜像源：<a target="_blank" rel="noopener" href="https://repo.huaweicloud.com/repository/pypi/simple/">https://repo.huaweicloud.com/repository/pypi/simple/</a></p>
-<h2 id="更换镜像源"><a href="#更换镜像源" class="headerlink" title="更换镜像源"></a>更换镜像源</h2><p>一般是临时使用，只需在命令行中加上<code>-i</code>参数即可，如：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -i https://pypi.tuna.tsinghua.edu.cn/simple [package_name]</span><br></pre></td></tr></table></figure>
-<p>package_name是要安装的包名。假如需要安装nonebot包，可以使用以下命令：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -i https://pypi.tuna.tsinghua.edu.cn/simple nonebot</span><br></pre></td></tr></table></figure>
-<p>以上内容参考自csdn博客，原文见：<a target="_blank" rel="noopener" href="https://blog.csdn.net/NANGE007/article/details/131702855">原文链接</a>。</p>
+        <h2 id="问题记录"><a href="#问题记录" class="headerlink" title="问题记录"></a>问题记录</h2><p>在使用Bibtex管理参考文献时，其中有一条参考文献的作者姓名包含西班牙语中的重音字符（如”Ángel”），使用bibtex和XeLaTeX均能成功编译，但在使用Latexmk和PDFLaTeX编译时，出现了编码错误，导致无法正确生成PDF文档。报错核心信息如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">"message": "Invalid UTF-8 byte sequence (�.)."</span><br></pre></td></tr></table></figure>
+<p>如果直接根据报错位置修改bibtex编译生成的.bbl文件，虽然可以解决问题，但这种方式不够优雅且不易维护。因为每一次使用bibtex编译后，都会重新生成.bbl文件，手动修改会导致每次都需要重复操作。需要找到一种更简洁优雅的解决方案。</p>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>在Bibtex中，处理特殊字符的推荐方式是使用转义字符。对于西班牙语中的重音字符，可以使用以下方式进行转义：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@article{example,</span><br><span class="line">  author = {\'{A}ngel},</span><br><span class="line">  title = {Example Title},</span><br><span class="line">  journal = {Example Journal},</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<p>在这里，重音字符”Á”被转义为”\’{A}”，这样可以确保在编译时不会再出现编码错误。<br>如果需要在Bibtex中使用其他特殊字符，可以参考以下常用的转义方式：</p>
+<ul>
+<li><code>\'{A}</code> 表示 “Á”</li>
+<li><code>\'{E}</code> 表示 “É”</li>
+<li><code>\'{I}</code> 表示 “Í”</li>
+<li><code>\'{O}</code> 表示 “Ó”</li>
+<li><code>\'{U}</code> 表示 “Ú”</li>
+<li><code>\'{N}</code> 表示 “Ñ”</li>
+<li><code>\c{C}</code> 表示 “Ç”<br>这种方式可以确保在使用Latexmk和PDFLaTeX编译时，能够正确处理包含特殊字符的作者姓名，而不会出现编码错误。</li>
+</ul>
+<p>修改时，请确保之前编译出错的.bbl文件已被删除，以便在下次编译时重新生成。</p>
 
       </section>
 
@@ -271,28 +272,14 @@ mjx-container[display="true"] + br {
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-    <div class="card-text">
-      
-        <a href="/2024/09/09/7/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">matlabR2024a下安装yalmip+cplex问题记录</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
     <div class="card-text">
       
-        <a href="/2024/08/08/5/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">IEEETran LaTeX模板使用记录</h2>
+        <a href="/2025/03/03/8/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">YALMIP约束条件代码优化：向量化与避免循环</h2>
         </a>
       
       <div class="card-text--row">Older</div>
